@@ -26,6 +26,8 @@ The website uses static HTML, CSS, and progressive JavaScript, with self-hosted 
 
 The opening logo grows in a sticky scene as the visitor scrolls, then the product sections continue normally. Diagram connectors draw below the descriptions and screenshots gently zoom into view. Scrolling remains native, the introduction can be skipped with the keyboard, and reduced-motion preferences disable the intro runway and movement.
 
+The build emits content-hashed CSS and JavaScript bundles so browsers receive matching assets after a website update. Generated bundles are excluded from Git and rebuilt by the deployment workflow.
+
 ```sh
 npm run build
 npm test

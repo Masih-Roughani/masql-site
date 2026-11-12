@@ -1,8 +1,20 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { content } from './content.mjs';
 
 const release = JSON.parse(await readFile(new URL('../release.json', import.meta.url)));
 const root = new URL('../', import.meta.url);
+// Content-hashed bundles keep each HTML page paired with its matching motion code and styles.
+const cssSources = await Promise.all(['tokens.css', 'base.css', 'scroll.css', 'site.css'].map(name => readFile(new URL(name, root), 'utf8')));
+const cssBundle = cssSources.join('\n').replace(/^@import[^\n]+\n/gm, '').replaceAll('./assets/fonts/', '../fonts/');
+const motionSource = await readFile(new URL('motion.js', root), 'utf8');
+const siteSource = await readFile(new URL('site.js', root), 'utf8');
+const jsBundle = `${motionSource.replace(/^export /gm, '')}\n${siteSource.replace("import { initScrollMotion } from './motion.js';", '')}`;
+const bundleName = (text, ext) => `assets/bundles/site.${createHash('sha256').update(text).digest('hex').slice(0, 12)}.${ext}`;
+const cssPath = bundleName(cssBundle, 'css'), jsPath = bundleName(jsBundle, 'js');
+await mkdir(new URL('assets/bundles/', root), { recursive: true });
+await writeFile(new URL(cssPath, root), cssBundle);
+await writeFile(new URL(jsPath, root), jsBundle);
 const { repository: repo, site, version, filename, sha256 } = release;
 const download = `${repo}/releases/download/v${version}/${filename}`;
 const notes = `${repo}/releases/tag/v${version}`;
@@ -96,7 +108,7 @@ function page(lang, kind = 'home') {
   <meta property="og:type" content="website"><meta property="og:site_name" content="MasQL"><meta property="og:title" content="${t.title}"><meta property="og:description" content="${t.description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${site}assets/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="${lang === 'fa' ? 'fa_IR' : 'en_US'}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#f8fbff"><link rel="icon" href="${asset('favicon.ico')}" sizes="any"><link rel="apple-touch-icon" href="${asset('apple-touch-icon.png')}">
   <link rel="preload" href="${asset(lang === 'fa' ? 'fonts/vazirmatn-arabic.woff2' : 'fonts/familjen-latin.woff2')}" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${prefix}site.css"><script src="${prefix}site.js" type="module"></script>
+  <link rel="stylesheet" href="${prefix}${cssPath}"><script src="${prefix}${jsPath}" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">${t.skip}</a>

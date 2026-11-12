@@ -3,3 +3,4 @@ output/
 .hallmark/
 .playwright-cli/
 downloads/
+assets/bundles/

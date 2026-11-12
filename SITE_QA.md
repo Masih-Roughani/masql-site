@@ -29,3 +29,4 @@ The Windows executable is the existing 1.2.8 release, not a new desktop build. I
 - Four Node tests cover growth, exit timing, clamping on narrow screens, and completion of content-entry animations before the reading area. These run in the deployment workflow.
 - The existing language, navigation, gallery, dialog/focus, copy feedback, FAQ, privacy, and WCAG A/AA browser checks pass with the new interaction code, with no observed page errors.
 - The earlier Hallmark checks above describe the original static launch. The revised introduction intentionally uses the first screen for the requested logo scene; current validation is the scroll behavior and browser coverage recorded here.
+- Content-hashed CSS/JavaScript bundles prevent a cached stylesheet or motion module from being paired with newer HTML. Static verification also checks the bundled font URLs.

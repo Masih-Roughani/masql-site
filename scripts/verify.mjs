@@ -19,6 +19,8 @@ for (const name of ['index.html', 'en/index.html', 'privacy.html', 'en/privacy.h
   assert.ok(html.includes(`<html lang="${lang}" dir="${content[lang].dir}">`));
   assert.ok(!html.includes('https://github.com/Masih-Roughani/MasQL/'), 'No private application repo links');
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
+  assert.match(html, /assets\/bundles\/site\.[a-f0-9]{12}\.css/);
+  assert.match(html, /assets\/bundles\/site\.[a-f0-9]{12}\.js/);
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, `${name}: unique IDs`);
   for (const match of html.matchAll(/(?:href|src)="([^"#]*)(#[^"]*)?"/g)) {
@@ -47,6 +49,11 @@ for (const cssName of ['site.css', 'scroll.css', 'base.css', 'tokens.css']) {
   }
 }
 const images = await readdir(resolve(root, 'assets/screenshots'));
+for (const name of (await readdir(resolve(root, 'assets/bundles'))).filter(name => name.endsWith('.css'))) {
+  const css = await readFile(resolve(root, 'assets/bundles', name), 'utf8');
+  assert.ok(!css.includes('@import'), 'Deployed CSS must not import stale stylesheets');
+  for (const match of css.matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)) await access(resolve(root, 'assets/bundles', match[1]));
+}
 assert.equal(images.filter(n => n.endsWith('.webp')).length, 9);
 for (const name of ['Vazirmatn-OFL.txt', 'Familjen-OFL.txt']) await access(resolve(root, 'assets/fonts', name));
 console.log(`Verified 4 localized pages, ${references} local references, 9 screenshots, font licenses, language parity, release links, and checksum.`);
