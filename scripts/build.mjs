@@ -30,7 +30,7 @@ function page(lang, kind = 'home') {
   const languageLinks = `<div class="languages" aria-label="${t.language}"><a href="${lang === 'en' ? '../' : './'}${privacy ? 'privacy.html' : ''}" lang="fa" hreflang="fa" ${lang === 'fa' ? 'aria-current="page"' : ''}>فارسی</a><a href="${lang === 'en' ? './' : 'en/'}${privacy ? 'privacy.html' : ''}" lang="en" hreflang="en" ${lang === 'en' ? 'aria-current="page"' : ''}>EN</a></div>`;
   const primary = (text = t.download) => `<a class="button button-primary download-link" href="${download}">${icon('download')}<span>${text}</span></a>`;
   const screen = (name, alt, hero = false) => {
-    const dimensions = ['persian-interface', 'visual-schema-editor', 'table-constraints'].includes(name) ? 'width="2160" height="1350"' : 'width="2143" height="1342"';
+    const dimensions = name === 'query-lab' ? 'width="1418" height="844"' : ['persian-interface', 'visual-schema-editor', 'table-constraints'].includes(name) ? 'width="2160" height="1350"' : 'width="2143" height="1342"';
     return `<a class="screenshot-link" href="${asset(`screenshots/${name}.webp`)}" data-screenshot data-kind="product" aria-label="${t.enlarge}"><img src="${asset(`screenshots/${name}.webp`)}" ${dimensions} alt="${escape(alt)}" ${hero ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}><span class="expand-hint">${icon('expand')}<span>${t.enlarge}</span></span></a>`;
   };
   const brand = `<a class="brand" href="${lang === 'en' ? './' : prefix}" aria-label="MasQL"><img src="${asset('mark.webp')}" width="40" height="40" alt=""><span dir="ltr">MasQL</span></a>`;
@@ -55,11 +55,11 @@ function page(lang, kind = 'home') {
       <figure class="learning-screen">${screen('learning-lab', t.learnAlt)}<figcaption>${t.grading}</figcaption></figure>
     </div></section>
     <section class="local section" aria-labelledby="local-title"><div class="container">
-      <div class="local-copy"><h2 id="local-title">${t.localTitle}</h2><p class="lead">${t.localIntro}</p><ul class="local-notes">${t.localNotes.map((text) => `<li>${icon('check')}<span>${bidi(text)}</span></li>`).join('')}</ul></div>
+      <div class="local-copy"><h2 id="local-title">${bidi(t.localTitle)}</h2><p class="lead">${t.localIntro}</p><ul class="local-notes">${t.localNotes.map((text) => `<li>${icon('check')}<span>${bidi(text)}</span></li>`).join('')}</ul></div>
       <figure class="local-screen">${screen('persian-interface', t.localAlt)}</figure>
     </div></section>
     <section class="download section" id="download" aria-labelledby="download-title"><div class="container">
-      <div class="section-head"><h2 id="download-title">${t.downloadTitle}</h2><p class="lead">${bidi(t.downloadIntro)}</p></div>
+      <div class="section-head"><h2 id="download-title">${bidi(t.downloadTitle)}</h2><p class="lead">${bidi(t.downloadIntro)}</p></div>
       <div class="download-layout"><div class="release-details"><div class="release-heading"><img src="${asset('app-icon.webp')}" alt="" width="88" height="88" loading="lazy"><div><h3 dir="ltr">MasQL ${version}</h3><p>${t.architecture}</p></div></div>
         <dl class="release-specs"><div><dt>${t.release}</dt><dd dir="ltr">${version}</dd></div><div><dt>${t.size}</dt><dd>${t.sizeValue}</dd></div></dl>
         ${primary()}<div class="release-links"><a href="${notes}">${t.releaseNotes}</a><a href="${download}.sha256">${t.checksumFile}</a></div>
