@@ -23,6 +23,7 @@ jobs:
       - name: Build and verify both languages
         run: |
           npm run build
+          npm test
           npm run verify
           node scripts/stage.mjs
       - uses: actions/upload-pages-artifact@v3

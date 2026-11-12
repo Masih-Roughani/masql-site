@@ -40,7 +40,7 @@ for (const name of ['index.html', 'en/index.html', 'privacy.html', 'en/privacy.h
     assert.ok(html.includes(release.sha256));
   }
 }
-for (const cssName of ['site.css', 'base.css', 'tokens.css']) {
+for (const cssName of ['site.css', 'scroll.css', 'base.css', 'tokens.css']) {
   const css = await readFile(resolve(root, cssName), 'utf8');
   for (const match of css.matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)) {
     await access(resolve(root, match[1])); references++;

@@ -19,3 +19,13 @@ Verified on 2026-11-12.
 ```
 
 The Windows executable is the existing 1.2.8 release, not a new desktop build. Its installer remains unsigned. The desktop development repository remains private.
+
+## Scroll interaction update, 2026-11-12
+
+- A native sticky scene keeps the logo centered while scrolling grows it. The animation reverses when scrolling upward and fades only after the pinned phase, avoiding a blank opening screen.
+- Four rounded diagram connectors draw with scroll progress; screenshots gently scale into place and text reveals once as it enters the viewport.
+- Browser checks cover both languages at phone and desktop sizes: centered logo, pinning, native mouse-wheel input, reversible growth, keyboard skip link, connector stroke progress, screenshot zoom, and no horizontal overflow at 320–1920 pixels.
+- Runtime switching to reduced motion hides the introduction and restores static content. With JavaScript disabled, the original page remains visible without an empty scroll runway.
+- Four Node tests cover growth, exit timing, clamping on narrow screens, and completion of content-entry animations before the reading area. These run in the deployment workflow.
+- The existing language, navigation, gallery, dialog/focus, copy feedback, FAQ, privacy, and WCAG A/AA browser checks pass with the new interaction code, with no observed page errors.
+- The earlier Hallmark checks above describe the original static launch. The revised introduction intentionally uses the first screen for the requested logo scene; current validation is the scroll behavior and browser coverage recorded here.

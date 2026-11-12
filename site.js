@@ -1,4 +1,5 @@
 // Content, navigation, and downloads remain usable without JavaScript.
+import { initScrollMotion } from './motion.js';
 document.documentElement.classList.add('js');
 
 const menu = document.querySelector('.menu-toggle');
@@ -96,3 +97,5 @@ document.querySelector('[data-copy]')?.addEventListener('click', async (event) =
 document.querySelectorAll('.languages a').forEach(link => {
   link.addEventListener('click', () => { link.hash = window.location.hash; });
 });
+
+initScrollMotion();

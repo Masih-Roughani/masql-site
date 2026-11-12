@@ -27,6 +27,11 @@ function page(lang, kind = 'home') {
   const privacy = kind === 'privacy';
   const canonical = `${home}${privacy ? 'privacy.html' : ''}`;
   const asset = (path) => `${prefix}assets/${path}`;
+  const flow = (label) => {
+    const [start, bend, approach] = lang === 'fa' ? [240, 258, 480] : [760, 742, 520];
+    const d = `M${start} 1 V22 Q${start} 42 ${bend} 42 H${approach} Q500 42 500 62 V118`;
+    return `<div class="flow-connector" data-flow aria-hidden="true"><svg viewBox="0 0 1000 128" preserveAspectRatio="none" fill="none"><path class="flow-track" d="${d}"/><path class="flow-line" pathLength="1" d="${d}"/><path class="flow-tip" d="m493 111 7 7 7-7"/></svg><span class="flow-label">${label}</span></div>`;
+  };
   const languageLinks = `<div class="languages" aria-label="${t.language}"><a href="${lang === 'en' ? '../' : './'}${privacy ? 'privacy.html' : ''}" lang="fa" hreflang="fa" ${lang === 'fa' ? 'aria-current="page"' : ''}>فارسی</a><a href="${lang === 'en' ? './' : 'en/'}${privacy ? 'privacy.html' : ''}" lang="en" hreflang="en" ${lang === 'en' ? 'aria-current="page"' : ''}>EN</a></div>`;
   const primary = (text = t.download) => `<a class="button button-primary download-link" href="${download}">${icon('download')}<span>${text}</span></a>`;
   const screen = (name, alt, hero = false) => {
@@ -37,29 +42,42 @@ function page(lang, kind = 'home') {
   const footer = `<footer class="footer"><div class="container"><div class="footer-main">${brand}<p>${bidi(t.footerLine)}</p><div class="footer-links"><a href="${repo}/issues">${t.support}</a><a href="${repo}/releases">${t.releases}</a><a href="privacy.html">${t.privacy}</a></div></div><div class="footer-bottom"><p>${t.author}</p><span dir="ltr">© 2026 MasQL</span></div></div></footer>`;
   const body = privacy ? `<main id="main" class="legal container"><a class="text-link" href="./">${t.back}</a><h1>${t.privacyTitle}</h1>${t.privacySections.map(([title, text]) => `<section><h2>${title}</h2><p>${bidi(text)}</p></section>`).join('')}<a class="text-link" href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">${t.githubPrivacy}</a></main>` : `
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title"><div class="container">
-      <div class="intro-grid"><h1 id="hero-title">${t.hero}</h1><div class="intro-description"><p class="lead">${bidi(t.intro)}</p><div class="actions">${primary()}<a class="text-link" href="#tour"><span>${bidi(t.explore)}</span></a></div></div></div>
+    <div class="brand-scene" data-brand-scene>
+      <div class="brand-pin">
+        <svg class="brand-guide" viewBox="0 0 1000 600" preserveAspectRatio="none" fill="none" aria-hidden="true"><path class="brand-guide-track" d="M0 160 H160 Q180 160 180 180 V240 Q180 260 200 260 H320 M680 340 H800 Q820 340 820 360 V440 Q820 460 840 460 H1000"/><path class="brand-guide-line" pathLength="1" d="M0 160 H160 Q180 160 180 180 V240 Q180 260 200 260 H320 M680 340 H800 Q820 340 820 360 V440 Q820 460 840 460 H1000"/></svg>
+        <img class="brand-emblem" src="${asset('mark-large.webp')}" alt="" width="850" height="843" fetchpriority="high">
+        <div class="brand-scene-copy"><p class="brand-scene-name" dir="ltr">MasQL</p><p>${t.introCaption}</p></div>
+        <a class="intro-skip" href="#overview"><span>${t.introSkip}</span>${icon('chevron')}</a>
+        <div class="intro-scroll" aria-hidden="true"><span>${t.introScroll}</span><span class="scroll-stem"></span></div>
+      </div>
+    </div>
+    <section class="hero" id="overview" aria-labelledby="hero-title"><div class="container">
+      <div class="intro-grid" data-reveal><h1 id="hero-title">${t.hero}</h1><div class="intro-description"><p class="lead">${bidi(t.intro)}</p><div class="actions">${primary()}<a class="text-link" href="#tour"><span>${bidi(t.explore)}</span></a></div></div></div>
       <ul class="platform-facts"><li>${icon('windows')}${t.platform}</li><li>${t.offline}</li><li>${t.free}</li></ul>
+      ${flow(t.flowSchema)}
     </div></section>
-    <div class="container"><figure class="hero-screen">${screen('live-schema', t.heroAlt, true)}<figcaption><span>${bidi(t.heroCaption)}</span><span dir="ltr">MasQL ${version}</span></figcaption></figure></div>
+    <div class="container"><figure class="hero-screen" data-zoom>${screen('live-schema', t.heroAlt, true)}<figcaption><span>${bidi(t.heroCaption)}</span><span dir="ltr">MasQL ${version}</span></figcaption></figure></div>
     <section class="tour section" id="tour" aria-labelledby="tour-title"><div class="container">
-      <div class="section-head"><h2 id="tour-title">${t.tourTitle}</h2><p class="lead">${bidi(t.tourIntro)}</p></div>
+      <div class="section-head" data-reveal><h2 id="tour-title">${t.tourTitle}</h2><p class="lead">${bidi(t.tourIntro)}</p></div>
+      ${flow(t.flowQuery)}
       <div class="workspace-tabs" data-tabs>
         <div class="tab-list" aria-label="${t.nav[0]}">${t.tabs.map(([name, label], i) => `<button class="tab-button" id="tab-${name}" data-tab="${name}" type="button" ${i === 0 ? 'data-active' : ''}>${label}</button>`).join('')}</div>
         ${t.tabs.map(([name, label, title, desc, alt], i) => `<div class="tab-panel" id="panel-${name}" data-panel="${name}"><div class="panel-caption"><h3>${title}</h3><p>${bidi(desc)}</p></div>${screen(name, alt)}</div>`).join('')}
       </div>
     </div></section>
     <section class="learning section" id="learn" aria-labelledby="learn-title"><div class="container">
-      <div class="section-head"><h2 id="learn-title">${bidi(t.learnTitle)}</h2><p class="lead">${t.learnIntro}</p></div>
-      <div class="course-list">${t.courses.map(([n, label, desc]) => `<div class="course"><span class="course-number">${n}</span><h3>${label}</h3><p>${bidi(desc)}</p></div>`).join('')}</div>
-      <figure class="learning-screen">${screen('learning-lab', t.learnAlt)}<figcaption>${t.grading}</figcaption></figure>
+      <div class="section-head" data-reveal><h2 id="learn-title">${bidi(t.learnTitle)}</h2><p class="lead">${t.learnIntro}</p></div>
+      <div class="course-list">${t.courses.map(([n, label, desc]) => `<div class="course" data-reveal><span class="course-number">${n}</span><h3>${label}</h3><p>${bidi(desc)}</p></div>`).join('')}</div>
+      ${flow(t.flowLearn)}
+      <figure class="learning-screen" data-zoom>${screen('learning-lab', t.learnAlt)}<figcaption>${t.grading}</figcaption></figure>
     </div></section>
     <section class="local section" aria-labelledby="local-title"><div class="container">
-      <div class="local-copy"><h2 id="local-title">${bidi(t.localTitle)}</h2><p class="lead">${t.localIntro}</p><ul class="local-notes">${t.localNotes.map((text) => `<li>${icon('check')}<span>${bidi(text)}</span></li>`).join('')}</ul></div>
-      <figure class="local-screen">${screen('persian-interface', t.localAlt)}</figure>
+      <div class="local-copy" data-reveal><h2 id="local-title">${bidi(t.localTitle)}</h2><p class="lead">${t.localIntro}</p><ul class="local-notes">${t.localNotes.map((text) => `<li>${icon('check')}<span>${bidi(text)}</span></li>`).join('')}</ul></div>
+      <figure class="local-screen" data-zoom>${screen('persian-interface', t.localAlt)}</figure>
     </div></section>
     <section class="download section" id="download" aria-labelledby="download-title"><div class="container">
-      <div class="section-head"><h2 id="download-title">${bidi(t.downloadTitle)}</h2><p class="lead">${bidi(t.downloadIntro)}</p></div>
+      <div class="section-head" data-reveal><h2 id="download-title">${bidi(t.downloadTitle)}</h2><p class="lead">${bidi(t.downloadIntro)}</p></div>
+      ${flow(t.flowDownload)}
       <div class="download-layout"><div class="release-details"><div class="release-heading"><img src="${asset('app-icon.webp')}" alt="" width="88" height="88" loading="lazy"><div><h3 dir="ltr">MasQL ${version}</h3><p>${t.architecture}</p></div></div>
         <dl class="release-specs"><div><dt>${t.release}</dt><dd dir="ltr">${version}</dd></div><div><dt>${t.size}</dt><dd>${t.sizeValue}</dd></div></dl>
         ${primary()}<div class="release-links"><a href="${notes}">${t.releaseNotes}</a><a href="${download}.sha256">${t.checksumFile}</a></div>
@@ -78,7 +96,7 @@ function page(lang, kind = 'home') {
   <meta property="og:type" content="website"><meta property="og:site_name" content="MasQL"><meta property="og:title" content="${t.title}"><meta property="og:description" content="${t.description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${site}assets/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="${lang === 'fa' ? 'fa_IR' : 'en_US'}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#f8fbff"><link rel="icon" href="${asset('favicon.ico')}" sizes="any"><link rel="apple-touch-icon" href="${asset('apple-touch-icon.png')}">
   <link rel="preload" href="${asset(lang === 'fa' ? 'fonts/vazirmatn-arabic.woff2' : 'fonts/familjen-latin.woff2')}" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${prefix}site.css"><script src="${prefix}site.js" defer></script>
+  <link rel="stylesheet" href="${prefix}site.css"><script src="${prefix}site.js" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">${t.skip}</a>

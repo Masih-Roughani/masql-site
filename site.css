@@ -8,6 +8,7 @@
 /* Hallmark · finish-review: subagent · 3 findings resolved: real query rows recaptured, mobile headline shortened, PostgreSQL and Windows named in headings. */
 @import url('./tokens.css');
 @import url('./base.css');
+@import url('./scroll.css');
 
 @font-face { font-family: 'Familjen'; src: url('./assets/fonts/familjen-latin.woff2') format('woff2'); font-style: normal; font-weight: 400 700; font-display: swap; }
 @font-face { font-family: 'Vazirmatn'; src: url('./assets/fonts/vazirmatn-arabic.woff2') format('woff2'); font-style: normal; font-weight: 100 900; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+202A-202E, U+FB50-FDFF, U+FE70-FEFF; }

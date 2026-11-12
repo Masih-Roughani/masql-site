@@ -24,8 +24,11 @@ MasQL محیطی برای طراحی بصری پایگاه داده و یادگ�
 
 The website uses static HTML, CSS, and progressive JavaScript, with self-hosted fonts. There are no runtime npm dependencies or added analytics.
 
+The opening logo grows in a sticky scene as the visitor scrolls, then the product sections continue normally. Diagram connectors draw below the descriptions and screenshots gently zoom into view. Scrolling remains native, the introduction can be skipped with the keyboard, and reduced-motion preferences disable the intro runway and movement.
+
 ```sh
 npm run build
+npm test
 npm run verify
 python -m http.server 4177
 ```
