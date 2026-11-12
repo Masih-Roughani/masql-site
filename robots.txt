@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://masih-roughani.github.io/masql-site/sitemap.xml
