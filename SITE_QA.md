@@ -30,3 +30,7 @@ The Windows executable is the existing 1.2.8 release, not a new desktop build. I
 - The existing language, navigation, gallery, dialog/focus, copy feedback, FAQ, privacy, and WCAG A/AA browser checks pass with the new interaction code, with no observed page errors.
 - The earlier Hallmark checks above describe the original static launch. The revised introduction intentionally uses the first screen for the requested logo scene; current validation is the scroll behavior and browser coverage recorded here.
 - Content-hashed CSS/JavaScript bundles prevent a cached stylesheet or motion module from being paired with newer HTML. Static verification also checks the bundled font URLs.
+
+### Intro caption centering
+
+The generic paragraph width limit left the subtitle's box against the inline edge on wide screens. Its inline margins now center the constrained paragraph under the wordmark. A browser regression check measures the actual text ranges, not only element boxes, in both languages at 375, 768, 1280, 1440, and 1920 pixels, before and during logo growth. The original check reproduced offsets of up to 494 pixels; the corrected text stays within 2 pixels of the viewport center.
